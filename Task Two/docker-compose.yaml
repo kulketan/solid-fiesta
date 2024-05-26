@@ -15,17 +15,18 @@ services:
     environment:
       POSTGRES_PASSWORD: postgrespassword
   graphql-engine:
-    image: hasura/graphql-engine:v2.39.2
+    image: hasura/graphql-engine:v2.38.0
     ports:
-      - "8111:80"
+      - "8080:8080"
     restart: always
     environment:
-      HASURA_GRAPHQL_ADMIN_SECRET: ""
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:somepassword@postgresdb:5432/postgres
-      HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
+      HASURA_GRAPHQL_ADMIN_SECRET: "admin"
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
       HASURA_GRAPHQL_DEV_MODE: "true"
       HASURA_GRAPHQL_REDIS_URL: "redis://redis:6379"
       HASURA_GRAPHQL_RATE_LIMIT_REDIS_URL: "redis://redis:6379"
       PG_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      HASURA_GRAPHQL_MAX_CACHE_SIZE: "200"
 volumes:
   db_data:
