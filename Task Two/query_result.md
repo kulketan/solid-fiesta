@@ -1,10 +1,14 @@
+**Query 1**
 
 Header Information: 
+
 content-type :  application/json
+
 x-hasura-admin-secret : admin
 
-Query:
+**Query:**
 
+```
 query getTracks($genre: String, $limit: Int, $offset: Int) {
   track(limit: $limit, offset: $offset, where: {genre: {name: {_eq: $genre}}}) 
   {
@@ -12,16 +16,20 @@ query getTracks($genre: String, $limit: Int, $offset: Int) {
     track_id
   }
 }
+
 Query Variables: 
 {
   "genre": "Metal",
   "limit": 5,
   "offset": 50
 }
+```
 
-Updated the table name from tracks to track as per the chinook database.
+**Updated the table name from tracks to track as per the chinook database.**
 
-Response: 
+**Response:**
+
+```
 {
   "data": {
     "track": [
@@ -48,25 +56,37 @@ Response:
     ]
   }
 }
-
-** Query 2 **
-*** Header Information ***
 ```
+
+**Query 2**
+
+Header Information
+
 content-type : application/json
+
 x-hasura-admin-secret:  admin
+
 x-hasura-artist-id:  5
+
 x-hasura-role :  artist
-``
-# Execute as an Artist
+
+
+**Execute as an Artist**
+
+**Query:**
+
+```
 query getAlbumsAsArtist{
 	album {
 		title
 	}
 }
+```
 
-Debugging: changed table name from albums to album in query.
+**Debugging: changed table name from albums to album in query.**
 
-Response: 
+**Response:**
+
 ```
 {
   "data": {
@@ -1075,17 +1095,21 @@ Response:
 }
 ```
 
-** Query 3 ***
+**Query 3**
 
-*** Response Header ***
+Response Header
 
 content-type : application/json
+
 x-hasura-admin-secret : admin
+
 x-hasura-artist-id : 5
+
 x-hasura-role : artist
 
-Query: 
+**Query:**
 
+```
 query trackValue {
 	track_aggregate {
 		aggregate {
@@ -1095,8 +1119,11 @@ query trackValue {
 		}
 	}
 }
+```
 
-Response: 
+**Response:**
+
+```
 {
   "errors": [
     {
@@ -1108,15 +1135,19 @@ Response:
     }
   ]
 }
+```
+
+**Explaination:**
 
 This is failing as execpted becuase Aggregation queries permissions are disabled for the artist role.
 To fix this query we need to either enable the Aggregation queries permissions or change the role from artist to admin.
 
-*** Execute a complex query of your choice, with and without caching. Share the query, the
-response and the response time for each. ***
+*Execute a complex query of your choice, with and without caching. Share the query, the
+response and the response time for each.*
 
-*** Query without cache ***
+**Query without cache**
 
+```
 query complexQueryWithoutCache {
   album {
     title
@@ -1135,8 +1166,10 @@ query complexQueryWithoutCache {
     }
   }
 }
+```
 
-Response: 
+**Response:**
+
 ```
 {
   "data": {
@@ -36686,9 +36719,11 @@ Response:
 }
 ```
 
-RESPONSE TIME: 230 ms
+**RESPONSE TIME: 230 ms**
 
+**Query with @cached**
 
+```
 query complexQueryWithCache @cached{
     album {
       title
@@ -36707,8 +36742,10 @@ query complexQueryWithCache @cached{
       }
     }
   }
+```
   
-  Response: 
+**Response:**
+
   ```
   {
     "data": {
@@ -72257,6 +72294,6 @@ query complexQueryWithCache @cached{
     }
   }
   ```
-Response Time: 200ms
+**Response Time: 200ms**
 
-After this I enabled the enterprise license as well however both the queries were running almost in similar time however significant changes in response time can be seen in cloud version.
+*After this I enabled the enterprise license as well however both the queries were running almost in similar time however significant changes in response time can be seen in cloud version.*
