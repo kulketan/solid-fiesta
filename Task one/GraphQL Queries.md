@@ -1,14 +1,19 @@
-GraphQL Queries
+# GraphQL Queries #
 
-Configure a GraphQL API that can answer the following statements via GraphQL:
-1. How many artists are in the database?
+**Configure a GraphQL API that can answer the following statements via GraphQL:**
+
+### 1. How many artists are in the database? 
 
 This query is required to be executed as administrator. 
-Request Headers: 
-content-type: application/json
-x-hasura-admin-secret: somesecrectkey 
 
-Query: 
+*Request Headers:* 
+
+content-type: application/json
+
+x-hasura-admin-secret: somesecrectkey
+
+**Query:**
+```
 query CountArtist {
   artist_aggregate {
     aggregate {
@@ -16,8 +21,9 @@ query CountArtist {
     }
   }
 }
-
-Response:
+```
+**Response:**
+```
 {
   "data": {
     "artist_aggregate": {
@@ -27,10 +33,18 @@ Response:
     }
   }
 }
+```
 
-2. List the first track of every album by every artist in ascending order.
+### 2. List the first track of every album by every artist in ascending order. ###
 
-Query: 
+This query is required to be executed as administrator.
+
+Request Headers: 
+content-type: application/json
+x-hasura-admin-secret: somesecrectkey
+
+**Query:**
+```
 query FirstTracks1 {
   artist(order_by: {name: asc}) {
     artist_id
@@ -45,8 +59,10 @@ query FirstTracks1 {
     }
   }
 }
+```
 
-Response: 
+**Response:**
+```
 {
   "data": {
     "artist": [
@@ -5129,11 +5145,7 @@ Response:
     ]
   }
 }
-
-This query is required to be executed as administrator. 
-Request Headers: 
-content-type: application/json
-x-hasura-admin-secret: somesecrectkey
+```
 
 3. Get all albums for artist id = 5 without specifying a where clause.
 
@@ -5166,14 +5178,18 @@ Response:
     ]
   }
 }
+```
 
-4. Using a GraphQL mutation, add your favorite artist and one of their albums that isn’t in the dataset.
+**4. Using a GraphQL mutation, add your favorite artist and one of their albums that isn’t in the dataset.**
 
 Request Headers: 
+
 content-type: application/json
+
 x-hasura-admin-secret: somesecrectkey
 
-Query:
+**Query:**
+```
 mutation MyMutation($album_id: Int!, $artist_id: Int!, $name: String!, $title: String!) {
   insert_album_one(object: {album_id: $album_id, artist: {data: {artist_id: $artist_id, name: $name}}, title: $title}, on_conflict: {constraint: album_pkey}) {
     album_id
@@ -5181,16 +5197,20 @@ mutation MyMutation($album_id: Int!, $artist_id: Int!, $name: String!, $title: S
     artist_id
   }
 }
+```
 
-Query Variables:
+**Query Variables:**
+```
 {
   "album_id": 348,
   "artist_id": 276,
   "name": "Daljeet",
   "title": "Ghost"
 }
+```
 
-Response:
+**Response:**
+```
 {
   "data": {
     "insert_album_one": {
@@ -5200,10 +5220,12 @@ Response:
     }
   }
 }
+```
 
-5. How did you identify which ID to include in the mutation?
+**5. How did you identify which ID to include in the mutation?**
 
-Query: 
+**Query:**
+```
 query AlbumCount {
   album_aggregate {
     aggregate {
@@ -5211,8 +5233,11 @@ query AlbumCount {
     }
   }
 }
+```
 
-Response:
+**Response:**
+
+```
 {
   "data": {
     "album_aggregate": {
@@ -5222,8 +5247,11 @@ Response:
     }
   }
 }
+```
 
-Query:
+**Query:**
+
+```
 query ArtistCount {
   artist_aggregate {
     aggregate {
@@ -5231,8 +5259,11 @@ query ArtistCount {
     }
   }
 }
+```
 
-Response:
+**Response:**
+
+```
 {
   "data": {
     "artist_aggregate": {
@@ -5242,3 +5273,6 @@ Response:
     }
   }
 }
+```
+
+**Added one in the count to find the ID to include in the mutation.** 
